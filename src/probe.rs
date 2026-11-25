@@ -8,7 +8,7 @@ use serde_json::Value;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-pub const PROBE_VERSION: i64 = 5; // при смене версии кэш ffprobe пересоздаётся
+pub const PROBE_VERSION: i64 = 6; // при смене версии кэш ffprobe пересоздаётся
 
 fn lang_name(code: &str) -> String {
     let c = code.trim().to_lowercase();
@@ -178,6 +178,59 @@ fn tag_map(s: &Value) -> Obj {
     m
 }
 
+fn split_list(s: &str) -> Vec<String> {
+    s.split(|c| c == ',' || c == ';' || c == '/').map(|x| x.trim().to_string()).filter(|x| !x.is_empty()).collect()
+}
+
+/// Теги Matroska → поля как у .nfo: title, year, imdb, plot, genres, directors, actors, mpaa.
+pub fn tag_info(pr: &Obj) -> Obj {
+    let mut o = Obj::new();
+    let t = match pr.get("mkv_tags") {
+        Some(Value::Object(t)) => t,
+        _ => return o,
+    };
+    let g = |k: &str| -> String { t.get(k).map(crate::jv::text_of).unwrap_or_default() };
+    let title = g("title");
+    if !title.is_empty() {
+        put(&mut o, "title", title);
+    }
+    let date = g("date_released");
+    let date = if date.is_empty() { g("date_release") } else { date };
+    let year: String = date.chars().take(4).collect();
+    if year.len() == 4 && year.chars().all(|c| c.is_ascii_digit()) {
+        put(&mut o, "year", year);
+    }
+    let imdb = g("imdb");
+    if imdb.starts_with("tt") {
+        put(&mut o, "imdb", imdb);
+    }
+    let plot = {
+        let s = g("summary");
+        if s.is_empty() { g("description") } else { s }
+    };
+    if !plot.is_empty() {
+        put(&mut o, "plot", plot);
+    }
+    let genres = split_list(&g("genre"));
+    if !genres.is_empty() {
+        put(&mut o, "genres", Value::from(genres));
+    }
+    let dirs = split_list(&g("director"));
+    if !dirs.is_empty() {
+        put(&mut o, "directors", Value::from(dirs));
+    }
+    let mut actors = split_list(&g("actor"));
+    actors.truncate(6);
+    if !actors.is_empty() {
+        put(&mut o, "actors", Value::from(actors));
+    }
+    let r = g("law_rating");
+    if !r.is_empty() {
+        put(&mut o, "mpaa", r);
+    }
+    o
+}
+
 fn disp_flag(s: &Value, k: &str) -> bool {
     match s.get("disposition") {
         Some(d) => d.get(k).map(truthy).unwrap_or(false),
@@ -276,6 +329,19 @@ pub fn parse_probe(data: &Value) -> Option<Obj> {
     };
     let mut res = Obj::new();
     put(&mut res, "_v", PROBE_VERSION);
+    // глобальные теги Matroska (MOVIE/TITLE, MOVIE/IMDB, MOVIE/SUMMARY …) — ключи без префикса цели, в нижнем регистре
+    let mut mt = Obj::new();
+    if let Some(Value::Object(t)) = data.get("format").and_then(|f| f.get("tags")) {
+        for (k, v) in t {
+            let key = k.rsplit('/').next().unwrap_or(k).to_lowercase();
+            if let Value::String(sv) = v {
+                if !sv.trim().is_empty() && !mt.contains_key(&key) {
+                    mt.insert(key, Value::String(sv.trim().to_string()));
+                }
+            }
+        }
+    }
+    put(&mut res, "mkv_tags", Value::Object(mt));
     let dur = data
         .get("format")
         .and_then(|f| f.get("duration"))
@@ -423,3 +489,23 @@ impl Ctx {
     }
 }
 
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn mkv_tags_to_info() {
+        let v: Value = serde_json::from_str(
+            r#"{"mkv_tags":{"title":"The Bone Collector","date_released":"1999-11-05","imdb":"tt0145681","genre":"Crime, Drama","actor":"A, B","summary":"Plot","law_rating":"R"}}"#,
+        )
+        .unwrap();
+        let pr = v.as_object().unwrap().clone();
+        let t = tag_info(&pr);
+        assert_eq!(so(&t, "title"), "The Bone Collector");
+        assert_eq!(so(&t, "year"), "1999");
+        assert_eq!(so(&t, "imdb"), "tt0145681");
+        assert_eq!(so(&t, "mpaa"), "R");
+        assert_eq!(t.get("genres").and_then(|x| x.as_array()).map(|a| a.len()), Some(2));
+    }
+}
