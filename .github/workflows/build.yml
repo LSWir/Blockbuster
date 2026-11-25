@@ -1,0 +1,19 @@
+name: build
+on: [push, workflow_dispatch]
+jobs:
+  win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --release
+      - run: cargo build --release
+      - run: |
+          mkdir dist
+          copy target\release\Blockbuster.exe dist\
+          xcopy /e /i logos dist\logos
+      - uses: actions/upload-artifact@v5
+        with:
+          name: Blockbuster_portable
+          path: dist
