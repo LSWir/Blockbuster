@@ -337,11 +337,8 @@ impl Ctx {
                 Some(p) => parse_nfo(&p),
                 None => Obj::new(),
             };
-            // теги самого mkv (MOVIE/IMDB, MOVIE/TITLE …): приоритет ниже .nfo, но выше названия файла
+            // теги самого mkv — только крайний случай (в них часто пишут данные релиз-группы), см. ниже
             let tg = tag_info(&pr);
-            if !has(&nfo, "imdb") && has(&tg, "imdb") {
-                nfo.insert("imdb".to_string(), tg.get("imdb").cloned().unwrap_or(Value::Null));
-            }
 
             let mut online = Obj::new();
             if self.online {
@@ -351,25 +348,13 @@ impl Ctx {
                     p_title = r.0;
                     p_year = r.1;
                 }
-                let q_title = if has(&nfo, "title") {
-                    so(&nfo, "title")
-                } else if has(&tg, "title") {
-                    so(&tg, "title")
-                } else {
-                    title.clone()
-                };
-                let q_year = if has(&nfo, "year") {
-                    so(&nfo, "year")
-                } else if has(&tg, "year") {
-                    so(&tg, "year")
-                } else {
-                    year.clone()
-                };
+                let q_title = if has(&nfo, "title") { so(&nfo, "title") } else { title.clone() };
+                let q_year = if has(&nfo, "year") { so(&nfo, "year") } else { year.clone() };
                 let q_imdb = so(&nfo, "imdb");
                 online = self.smart_fetch(&q_title, &q_year, &q_imdb, "movie", &p_title, &p_year)?;
                 merge_online(&mut nfo, &online);
             }
-            // чего не дал ни .nfo, ни интернет (или без интернета) — берём из тегов mkv
+            // крайний случай: чего не дал ни .nfo, ни интернет (или режим «без интернета») — берём из тегов mkv
             for k in ["title", "year", "plot", "genres", "directors", "actors", "mpaa"] {
                 if !has(&nfo, k) && has(&tg, k) {
                     nfo.insert(k.to_string(), tg.get(k).cloned().unwrap_or(Value::Null));
