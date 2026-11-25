@@ -438,6 +438,21 @@ impl Ctx {
                     tmdb_media = "movie".to_string();
                 }
             }
+            // сериал найден, но год сильно не совпадает с годом в имени («Cradle to Grave (2017)» — документальный ФИЛЬМ,
+            // а TMDB первым отдаёт одноимённый сериал 2015 года): пробуем как фильм и берём его, если год сходится
+            if !online.is_empty() && tmdb_media == "tv" && !q_year.is_empty() {
+                let (want, got) = (q_year.parse::<i64>(), so(&online, "year").parse::<i64>());
+                if let (Ok(w), Ok(gt)) = (want, got) {
+                    if (w - gt).abs() > 1 {
+                        let mv = self.smart_fetch(&q_title, &q_year, &q_imdb, "movie", "", "")?;
+                        let my = so(&mv, "year").parse::<i64>().unwrap_or(0);
+                        if !mv.is_empty() && (my - w).abs() <= 1 {
+                            online = mv;
+                            tmdb_media = "movie".to_string();
+                        }
+                    }
+                }
+            }
             merge_online(&mut nfo, &online);
         }
 
