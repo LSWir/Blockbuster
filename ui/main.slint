@@ -1,0 +1,658 @@
+import { ListView, Palette } from "std-widgets.slint";
+
+export struct LogLine {
+    text: string,
+    kind: int,
+}
+
+// Тексты интерфейса (заполняются из Rust на выбранном языке)
+export global Tr {
+    in property <string> subtitle;
+    in property <string> drive-or-folder;
+    in property <string> paste;
+    in property <string> browse;
+    in property <string> keys-settings;
+    in property <string> tmdb-key;
+    in property <string> omdb-keys;
+    in property <string> ffprobe-folder;
+    in property <string> skip-folders;
+    in property <string> show-keys;
+    in property <string> save;
+    in property <string> scan;
+    in property <string> stop;
+    in property <string> offline;
+    in property <string> embed-logos;
+    in property <string> autoscroll;
+    in property <string> open-catalog;
+    in property <string> drive-folder;
+    in property <string> about;
+    in property <string> description;
+    in property <string> links-note;
+    in property <string> version;
+    in property <string> previous;
+    in property <string> language;
+    in property <string> theme;
+    in property <string> light;
+    in property <string> dark;
+    in property <string> close;
+    in property <string> project;
+}
+
+// Цвета: тёмная и светлая темы
+export global Pal {
+    in-out property <bool> dark: true;
+    out property <color> bg: dark ? #121214 : #f3f3f7;
+    out property <color> panel: dark ? #1c1c20 : #ffffff;
+    out property <color> border: dark ? #2c2c33 : #d3d3dc;
+    out property <color> field: dark ? #141417 : #ffffff;
+    out property <color> btn: dark ? #2a2a32 : #e3e3ea;
+    out property <color> btn-hover: dark ? #34343e : #d4d4de;
+    out property <color> btn-off: dark ? #1e1e24 : #ececf1;
+    out property <color> btn-off-text: dark ? #666666 : #a0a0ac;
+    out property <color> text: dark ? #ececf1 : #1c1c22;
+    out property <color> muted: dark ? #9a9aa6 : #5e5e6a;
+    out property <color> accent: #7c4dff;
+    out property <color> accent-hover: #9b6dff;
+    out property <color> link: dark ? #b388ff : #6a3fe0;
+    out property <color> logo: dark ? #d9b8ff : #6a3fe0;
+    out property <color> danger: dark ? #3a1d24 : #fbe1e5;
+    out property <color> danger-hover: dark ? #4a2430 : #f6c9d0;
+    out property <color> danger-text: dark ? #ff9aa9 : #b3203a;
+    out property <color> log-bg: dark ? #0d0d0f : #ffffff;
+    out property <color> log-text: dark ? #cfd0d8 : #24242c;
+    out property <color> log-err: dark ? #ff6b81 : #d6203f;
+    out property <color> log-ok: dark ? #5ad19a : #14925a;
+    out property <color> log-dim: dark ? #8a8a96 : #7a7a86;
+    out property <color> shade: dark ? #000000b0 : #20203080;
+}
+
+// Кнопка в нашем стиле (обычная / главная / «стоп»)
+component Btn inherits Rectangle {
+    in property <string> text;
+    in property <bool> primary: false;
+    in property <bool> danger: false;
+    in property <bool> enabled: true;
+    in property <length> pad: 14px;
+    callback clicked();
+
+    height: 34px;
+    min-width: label.preferred-width + 2 * root.pad;
+    border-radius: 6px;
+    background: !root.enabled ? Pal.btn-off :
+        root.danger ? (ta.has-hover ? Pal.danger-hover : Pal.danger) :
+        root.primary ? (ta.has-hover ? Pal.accent-hover : Pal.accent) :
+        (ta.has-hover ? Pal.btn-hover : Pal.btn);
+
+    label := Text {
+        width: parent.width;
+        height: parent.height;
+        text: root.text;
+        color: !root.enabled ? Pal.btn-off-text : root.danger ? Pal.danger-text : root.primary ? #ffffff : Pal.text;
+        font-size: 13px;
+        font-weight: root.primary || root.danger ? 700 : 400;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+    ta := TouchArea {
+        enabled: root.enabled;
+        mouse-cursor: pointer;
+        clicked => { root.clicked(); }
+    }
+}
+
+// Флажок в нашем стиле
+component Chk inherits Rectangle {
+    in property <string> text;
+    in-out property <bool> checked: false;
+
+    height: 26px;
+    min-width: 26px + lbl.preferred-width;
+    preferred-width: 26px + lbl.preferred-width;
+    horizontal-stretch: 0;
+    HorizontalLayout {
+        spacing: 8px;
+        alignment: start;
+        Rectangle {
+            width: 18px;
+            height: 18px;
+            y: (parent.height - self.height) / 2;
+            border-radius: 4px;
+            border-width: 1px;
+            border-color: root.checked ? Pal.accent : Pal.muted;
+            background: root.checked ? Pal.accent : transparent;
+            if root.checked : Path {
+                x: 2px;
+                y: 3px;
+                width: 14px;
+                height: 11px;
+                commands: "M 1 6 L 5 10 L 13 1";
+                stroke: #ffffff;
+                stroke-width: 2px;
+            }
+        }
+        lbl := Text {
+            text: root.text;
+            color: Pal.text;
+            font-size: 13px;
+            vertical-alignment: center;
+        }
+    }
+    TouchArea {
+        mouse-cursor: pointer;
+        clicked => { root.checked = !root.checked; }
+    }
+}
+
+// Однострочное поле ввода
+component Field inherits Rectangle {
+    in-out property <string> text <=> ti.text;
+    in property <InputType> input-type <=> ti.input-type;
+    // «Вставить»: заменяет содержимое поля текстом из буфера обмена (работает при любой раскладке)
+    public function paste-replace() {
+        ti.focus();
+        ti.select-all();
+        ti.paste();
+    }
+
+    height: 34px;
+    background: Pal.field;
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: ti.has-focus ? Pal.accent : Pal.border;
+    horizontal-stretch: 1;
+    // длинный текст не должен растягивать окно: ширина поля не зависит от содержимого
+    min-width: 60px;
+    preferred-width: 60px;
+    clip: true;
+
+    HorizontalLayout {
+        padding-left: 10px;
+        padding-right: 10px;
+        VerticalLayout {
+            alignment: center;
+            ti := TextInput {
+                color: Pal.text;
+                font-size: 13px;
+                single-line: true;
+                selection-background-color: Pal.accent;
+                selection-foreground-color: #ffffff;
+            }
+        }
+    }
+}
+
+component Panel inherits Rectangle {
+    background: Pal.panel;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: Pal.border;
+    VerticalLayout {
+        padding: 12px;
+        spacing: 8px;
+        @children
+    }
+}
+
+component Caption inherits Text {
+    color: Pal.muted;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+// Переключатель из нескольких вариантов (язык / тема)
+component Seg inherits Rectangle {
+    in property <string> text;
+    in property <bool> active: false;
+    callback clicked();
+    height: 30px;
+    min-width: 66px;
+    border-radius: 6px;
+    background: root.active ? Pal.accent : (ta.has-hover ? Pal.btn-hover : Pal.btn);
+    Text {
+        text: root.text;
+        color: root.active ? #ffffff : Pal.text;
+        font-size: 12px;
+        font-weight: root.active ? 700 : 400;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => { root.clicked(); }
+    }
+}
+
+// Анимация Popcorn (кадры отрисованы из Popcorn.json)
+component Popcorn inherits Rectangle {
+    width: 44px;
+    height: 44px;
+    property <float> frame: Math.mod(Math.floor(animation-tick() / 33ms), 32);
+    if root.frame == 0 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f00.png"); }
+    if root.frame == 1 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f01.png"); }
+    if root.frame == 2 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f02.png"); }
+    if root.frame == 3 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f03.png"); }
+    if root.frame == 4 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f04.png"); }
+    if root.frame == 5 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f05.png"); }
+    if root.frame == 6 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f06.png"); }
+    if root.frame == 7 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f07.png"); }
+    if root.frame == 8 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f08.png"); }
+    if root.frame == 9 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f09.png"); }
+    if root.frame == 10 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f10.png"); }
+    if root.frame == 11 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f11.png"); }
+    if root.frame == 12 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f12.png"); }
+    if root.frame == 13 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f13.png"); }
+    if root.frame == 14 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f14.png"); }
+    if root.frame == 15 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f15.png"); }
+    if root.frame == 16 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f16.png"); }
+    if root.frame == 17 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f17.png"); }
+    if root.frame == 18 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f18.png"); }
+    if root.frame == 19 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f19.png"); }
+    if root.frame == 20 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f20.png"); }
+    if root.frame == 21 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f21.png"); }
+    if root.frame == 22 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f22.png"); }
+    if root.frame == 23 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f23.png"); }
+    if root.frame == 24 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f24.png"); }
+    if root.frame == 25 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f25.png"); }
+    if root.frame == 26 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f26.png"); }
+    if root.frame == 27 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f27.png"); }
+    if root.frame == 28 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f28.png"); }
+    if root.frame == 29 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f29.png"); }
+    if root.frame == 30 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f30.png"); }
+    if root.frame == 31 : Image { width: parent.width; height: parent.height; image-fit: contain; source: @image-url("../assets/popcorn/f31.png"); }
+}
+
+// Ссылка
+component Link inherits Rectangle {
+    in property <string> text;
+    in property <string> url;
+    callback open(string);
+    height: 22px;
+    min-width: t.preferred-width;
+    t := Text {
+        text: root.text;
+        color: Pal.link;
+        font-size: 12px;
+        vertical-alignment: center;
+    }
+    Rectangle {
+        y: parent.height - 3px;
+        height: 1px;
+        width: t.preferred-width;
+        x: 0px;
+        background: Pal.link;
+    }
+    TouchArea {
+        mouse-cursor: pointer;
+        clicked => { root.open(root.url); }
+    }
+}
+
+export component MainWindow inherits Window {
+    title: "Blockbuster";
+    icon: @image-url("../assets/Blockbuster.png");
+    preferred-width: 900px;
+    preferred-height: 820px;
+    min-width: 720px;
+    min-height: 600px;
+    background: Pal.bg;
+    default-font-family: "Segoe UI";
+
+    in-out property <string> target-path;
+    in-out property <string> tmdb-key;
+    in-out property <string> omdb-key;
+    in-out property <string> ffprobe-path;
+    in-out property <string> ignore-folders;
+    in-out property <string> status;
+    in-out property <bool> keys-open: true;
+    in-out property <bool> running: false;
+    in-out property <bool> results-visible: false;
+    in-out property <bool> done-ok: false;
+    in-out property <bool> offline: false;
+    in-out property <bool> embed-logos: false;
+    in-out property <bool> show-keys: false;
+    in-out property <bool> autoscroll: true;
+    in-out property <bool> about-open: false;
+    in-out property <int> lang: 0;
+    in-out property <string> selected-drive;
+    in property <string> app-version: "0.4.10";
+    in property <[string]> drives;
+    in property <[LogLine]> log-lines;
+
+    callback start-scan(string, bool, bool);
+    callback stop-scan();
+    callback save-settings(string, string, string, string);
+    callback browse-target();
+    callback browse-ffprobe();
+    callback open-result(int);
+    callback open-url(string);
+    callback set-language(int);
+    callback set-theme(bool);
+
+    public function scroll-bottom() {
+        lv.content-y = min(0px, lv.visible-height - lv.content-height);
+    }
+    public function apply-theme(dark: bool) {
+        Pal.dark = dark;
+        Palette.color-scheme = dark ? ColorScheme.dark : ColorScheme.light;
+    }
+
+    VerticalLayout {
+        padding: 18px;
+        spacing: 10px;
+
+        HorizontalLayout {
+            spacing: 10px;
+            Text {
+                text: "    _/        _/                      _/        _/                              _/\n   _/_/_/    _/    _/_/      _/_/_/  _/  _/    _/_/_/    _/    _/    _/_/_/  _/_/_/_/    _/_/    _/  _/_/\n  _/    _/  _/  _/    _/  _/        _/_/      _/    _/  _/    _/  _/_/        _/      _/_/_/_/  _/_/\n _/    _/  _/  _/    _/  _/        _/  _/    _/    _/  _/    _/      _/_/    _/      _/        _/\n_/_/_/    _/    _/_/      _/_/_/  _/    _/  _/_/_/      _/_/_/  _/_/_/        _/_/    _/_/_/  _/";
+                font-family: "Consolas";
+                font-size: 8px;
+                color: Pal.logo;
+                wrap: no-wrap;
+                horizontal-stretch: 1;
+            }
+            Rectangle {
+                width: 30px;
+                height: 30px;
+                y: 0px;
+                border-radius: 15px;
+                background: qa.has-hover ? Pal.accent-hover : Pal.accent;
+                Text {
+                    text: "?";
+                    color: #ffffff;
+                    font-size: 16px;
+                    font-weight: 700;
+                    horizontal-alignment: center;
+                    vertical-alignment: center;
+                }
+                qa := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => { root.about-open = true; }
+                }
+            }
+        }
+        Panel {
+            Caption { text: Tr.drive-or-folder; }
+            HorizontalLayout {
+                spacing: 5px;
+                alignment: start;
+                for d in root.drives : Btn {
+                    text: d;
+                    primary: root.selected-drive == d;
+                    clicked => {
+                        root.selected-drive = d;
+                        root.target-path = d;
+                    }
+                }
+            }
+            HorizontalLayout {
+                spacing: 8px;
+                f-path := Field {
+                    text <=> root.target-path;
+                }
+                Btn {
+                    text: Tr.paste;
+                    clicked => { f-path.paste-replace(); }
+                }
+                Btn {
+                    text: Tr.browse;
+                    clicked => { root.browse-target(); }
+                }
+            }
+        }
+
+        Rectangle {
+            height: 26px;
+            Text {
+                width: parent.width;
+                height: parent.height;
+                text: (root.keys-open ? "-  " : "+  ") + Tr.keys-settings;
+                color: Pal.link;
+                font-size: 13px;
+                font-weight: 700;
+                vertical-alignment: center;
+            }
+            TouchArea {
+                mouse-cursor: pointer;
+                clicked => { root.keys-open = !root.keys-open; }
+            }
+        }
+
+        if root.keys-open : Panel {
+            GridLayout {
+                spacing: 8px;
+                Row {
+                    Text { text: Tr.tmdb-key; color: Pal.muted; font-size: 12px; vertical-alignment: center; width: 250px; }
+                    f-tmdb := Field {
+                        text <=> root.tmdb-key;
+                        input-type: root.show-keys ? InputType.text : InputType.password;
+                    }
+                    Btn { text: Tr.paste; clicked => { f-tmdb.paste-replace(); } }
+                }
+                Row {
+                    Text { text: Tr.omdb-keys; color: Pal.muted; font-size: 12px; vertical-alignment: center; width: 250px; wrap: word-wrap; }
+                    f-omdb := Field {
+                        text <=> root.omdb-key;
+                        input-type: root.show-keys ? InputType.text : InputType.password;
+                    }
+                    Btn { text: Tr.paste; clicked => { f-omdb.paste-replace(); } }
+                }
+                Row {
+                    Text { text: Tr.ffprobe-folder; color: Pal.muted; font-size: 12px; vertical-alignment: center; width: 250px; wrap: word-wrap; }
+                    f-ffp := Field {
+                        text <=> root.ffprobe-path;
+                    }
+                    Btn { text: Tr.paste; clicked => { f-ffp.paste-replace(); } }
+                    Btn { text: Tr.browse; clicked => { root.browse-ffprobe(); } }
+                }
+                Row {
+                    Text { text: Tr.skip-folders; color: Pal.muted; font-size: 12px; vertical-alignment: center; width: 250px; wrap: word-wrap; }
+                    f-ign := Field {
+                        text <=> root.ignore-folders;
+                    }
+                    Btn { text: Tr.paste; clicked => { f-ign.paste-replace(); } }
+                }
+            }
+            HorizontalLayout {
+                spacing: 14px;
+                alignment: start;
+                Chk {
+                    text: Tr.show-keys;
+                    checked <=> root.show-keys;
+                }
+                Btn {
+                    text: Tr.save;
+                    clicked => {
+                        root.save-settings(root.tmdb-key, root.omdb-key, root.ffprobe-path, root.ignore-folders);
+                    }
+                }
+            }
+        }
+
+        HorizontalLayout {
+            spacing: 12px;
+            alignment: start;
+            Btn {
+                text: Tr.scan;
+                primary: true;
+                enabled: !root.running;
+                pad: 26px;
+                height: 40px;
+                clicked => { root.start-scan(root.target-path, root.offline, root.embed-logos); }
+            }
+            if root.running : Btn {
+                text: Tr.stop;
+                danger: true;
+                pad: 22px;
+                height: 40px;
+                clicked => { root.stop-scan(); }
+            }
+            Chk {
+                text: Tr.offline;
+                checked <=> root.offline;
+            }
+            Chk {
+                text: Tr.embed-logos;
+                checked <=> root.embed-logos;
+            }
+        }
+
+        if root.running : Rectangle {
+            height: 4px;
+            clip: true;
+            border-radius: 2px;
+            background: Pal.border;
+            Rectangle {
+                width: 120px;
+                height: parent.height;
+                x: (parent.width + 120px) * Math.mod(animation-tick() / 1.4s, 1) - 120px;
+                border-radius: 2px;
+                background: Pal.accent;
+            }
+        }
+
+        Rectangle {
+            vertical-stretch: 1;
+            min-height: 160px;
+            background: Pal.log-bg;
+            border-radius: 6px;
+            border-width: 1px;
+            border-color: Pal.border;
+
+            lv := ListView {
+                x: 6px;
+                y: 4px;
+                width: parent.width - 12px;
+                height: parent.height - 8px;
+                for line in root.log-lines : TextInput {
+                    text: line.text;
+                    read-only: true;
+                    wrap: word-wrap;
+                    font-family: "Consolas";
+                    font-size: 12px;
+                    color: line.kind == 1 ? Pal.log-err :
+                        line.kind == 2 ? Pal.log-ok :
+                        line.kind == 3 ? Pal.log-dim : Pal.log-text;
+                }
+            }
+        }
+
+        HorizontalLayout {
+            spacing: 14px;
+            if root.done-ok : Path {
+                width: 14px;
+                height: 11px;
+                commands: "M 1 6 L 5 10 L 13 1";
+                stroke: Pal.log-ok;
+                stroke-width: 2px;
+            }
+            Text {
+                text: root.status;
+                color: Pal.muted;
+                font-size: 12px;
+                vertical-alignment: center;
+                horizontal-stretch: 1;
+            }
+            Chk {
+                text: Tr.autoscroll;
+                checked <=> root.autoscroll;
+            }
+        }
+
+        if root.results-visible : HorizontalLayout {
+            spacing: 8px;
+            alignment: start;
+            Btn { text: Tr.open-catalog; clicked => { root.open-result(0); } }
+            Btn { text: "log.txt"; clicked => { root.open-result(1); } }
+            Btn { text: Tr.drive-folder; clicked => { root.open-result(2); } }
+        }
+    }
+
+    // ── окно «О программе» ──
+    if root.about-open : Rectangle {
+        x: 0px;
+        y: 0px;
+        width: root.width;
+        height: root.height;
+        background: Pal.shade;
+        TouchArea { clicked => { root.about-open = false; } }
+
+        Rectangle {
+            width: min(560px, parent.width - 32px);
+            height: min(about-box.preferred-height + 36px, parent.height - 32px);
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+            background: Pal.panel;
+            border-radius: 10px;
+            border-width: 1px;
+            border-color: Pal.border;
+            clip: true;
+            TouchArea { }
+
+            about-box := VerticalLayout {
+                padding: 18px;
+                spacing: 10px;
+
+                HorizontalLayout {
+                    spacing: 10px;
+                    Popcorn { }
+                    Text {
+                        text: "Blockbuster  v" + root.app-version;
+                        color: Pal.text;
+                        font-size: 20px;
+                        font-weight: 700;
+                        vertical-alignment: center;
+                        horizontal-stretch: 1;
+                    }
+                    Btn {
+                        text: "×";
+                        pad: 8px;
+                        clicked => { root.about-open = false; }
+                    }
+                }
+                Text {
+                    text: Tr.previous + ": v0.4.9";
+                    color: Pal.muted;
+                    font-size: 11px;
+                }
+                Text {
+                    text: Tr.description;
+                    color: Pal.text;
+                    font-size: 13px;
+                    wrap: word-wrap;
+                }
+                Text {
+                    text: Tr.links-note;
+                    color: Pal.muted;
+                    font-size: 12px;
+                    wrap: word-wrap;
+                }
+                HorizontalLayout {
+                    spacing: 16px;
+                    alignment: start;
+                    Link { text: "TMDB"; url: "https://www.themoviedb.org/"; open(u) => { root.open-url(u); } }
+                    Link { text: "OMDb"; url: "https://www.omdbapi.com/"; open(u) => { root.open-url(u); } }
+                    Link { text: "IMDb datasets"; url: "https://datasets.imdbws.com/"; open(u) => { root.open-url(u); } }
+                    Link { text: "FFmpeg / ffprobe"; url: "https://ffmpeg.org/"; open(u) => { root.open-url(u); } }
+                }
+
+                Rectangle { height: 1px; background: Pal.border; }
+
+                HorizontalLayout {
+                    spacing: 8px;
+                    Text { text: Tr.language; color: Pal.muted; font-size: 12px; vertical-alignment: center; width: 70px; }
+                    Seg { text: "English"; active: root.lang == 1; clicked => { root.set-language(1); } }
+                    Seg { text: "Українська"; active: root.lang == 2; clicked => { root.set-language(2); } }
+                    Seg { text: "Русский"; active: root.lang == 0; clicked => { root.set-language(0); } }
+                    Rectangle { horizontal-stretch: 1; }
+                }
+                HorizontalLayout {
+                    spacing: 8px;
+                    Text { text: Tr.theme; color: Pal.muted; font-size: 12px; vertical-alignment: center; width: 70px; }
+                    Seg { text: Tr.light; active: !Pal.dark; clicked => { root.set-theme(false); } }
+                    Seg { text: Tr.dark; active: Pal.dark; clicked => { root.set-theme(true); } }
+                    Rectangle { horizontal-stretch: 1; }
+                }
+            }
+        }
+    }
+}

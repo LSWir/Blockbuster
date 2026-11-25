@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blockbuster</title>
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,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">
+<style>
+  :root { --bg:#141414; --card:#1f1f1f; --line:#2a2a2a; --accent:#e50914; --muted:#9a9a9a; }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: #fff; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; margin: 0; padding: 20px; }
+  header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+  h1 { margin: 0; font-size: 24px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; }
+  input, select { background: #222; border: 1px solid #444; color: #fff; padding: 10px 12px; border-radius: 6px; font-size: 14px; }
+  #search { width: 260px; }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  #tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+  .tab { background: #222; color: #ddd; border: 1px solid #333; border-radius: 20px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+  .tab span { color: var(--muted); margin-left: 4px; font-size: 12px; }
+  .tab:hover { border-color: #666; }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .tab.active span { color: #ffd6d8; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+  .card { background: var(--card); border-radius: 8px; overflow: hidden; transition: transform .2s; cursor: pointer; display: flex; flex-direction: column; position: relative; }
+  .card:hover { transform: scale(1.04); box-shadow: 0 8px 20px rgba(0,0,0,.6); z-index: 2; }
+  .poster-wrap { aspect-ratio: 2/3; background: #2a2a2a; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .poster-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .no-poster { color: #777; font-size: 13px; text-align: center; padding: 10px; }
+  .badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.75); border-radius: 4px; padding: 2px 6px; font-size: 12px; font-weight: 700; color: #f5c518; }
+  .qbadge { position: absolute; top: 8px; left: 8px; background: var(--accent); border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: 700; }
+  .kbadge { position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,.78); border: 1px solid #555; border-radius: 4px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+  .info { padding: 10px; }
+  .title { font-size: 14px; font-weight: 600; line-height: 1.3; word-break: break-word; }
+  .otitle { font-size: 12px; font-weight: 300; color: #c8c8c8; line-height: 1.25; margin-top: 2px; word-break: break-word; }
+  header h1 { display: flex; align-items: flex-end; gap: 10px; --art-fs: 5.5pt; }
+  #popcorn { flex: none; display: block; width: calc(var(--art-fs) * 5.25); height: calc(var(--art-fs) * 5.25); }
+  .logo-art { margin: 0; font: var(--art-fs)/1.05 Consolas, "Courier New", monospace; color: #d9b8ff; white-space: pre; letter-spacing: 0; }
+  .cnt { font-size: 14px; line-height: 1; font-weight: 400; color: var(--muted); }
+  .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  #modal { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 10; }
+  #modal.open { display: flex; }
+  .dialog { background: #181818; border-radius: 10px; max-width: 920px; width: 100%; max-height: 90vh; overflow: auto; display: flex; gap: 22px; padding: 22px; position: relative; }
+  .dialog .dposter { flex: 0 0 240px; }
+  .dialog .dposter img, .dialog .dposter .no-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px; background: #2a2a2a; display: flex; align-items: center; justify-content: center; }
+  .dbody { flex: 1; min-width: 0; }
+  .dbody h2 { margin: 0 0 4px; font-size: 24px; padding-right: 30px; }
+  .orig { color: var(--muted); margin-bottom: 8px; }
+  .tag { font-style: italic; color: #ccc; margin: 8px 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .chip { background: #2a2a2a; border-radius: 14px; padding: 3px 10px; font-size: 12px; }
+  .chip.kind { background: var(--accent); }
+  .plot { line-height: 1.5; color: #ddd; margin: 12px 0; }
+  table.meta { border-collapse: collapse; font-size: 13px; margin-bottom: 14px; }
+  table.meta td { padding: 3px 14px 3px 0; vertical-align: top; }
+  table.meta td:first-child { color: var(--muted); white-space: nowrap; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .play { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; font-size: 14px; }
+  .play:hover { filter: brightness(1.15); }
+  .play.imdb { background: #f5c518; color: #000; }
+  .play.tmdb { background: #01b4e4; color: #032541; }
+  .play.rt { background: #fa320a; color: #fff; }
+  .play.disk { background: #3a3a3a; color: #fff; }
+  .play.logo { background: #fff; padding: 7px 14px; }
+  .close { position: absolute; top: 10px; right: 14px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
+  .empty { color: var(--muted); padding: 40px; text-align: center; grid-column: 1 / -1; }
+  .seasons { margin: 4px 0 16px; }
+  details.season { background: #1f1f1f; border-radius: 8px; margin-bottom: 8px; }
+  details.season summary { cursor: pointer; padding: 10px 14px; font-weight: 600; list-style: none; }
+  details.season summary::-webkit-details-marker { display: none; }
+  details.season summary::before { content: "▸"; display: inline-block; width: 18px; color: var(--muted); }
+  details.season[open] summary::before { content: "▾"; }
+  details.season summary em { color: var(--muted); font-weight: 400; font-style: normal; font-size: 13px; }
+  .eps { padding: 0 8px 8px; }
+  .ep { display: flex; align-items: center; border-radius: 6px; }
+  .ep:hover { background: #2c2c2c; }
+  a.eplink { flex: 1; min-width: 0; display: flex; gap: 12px; align-items: baseline; padding: 7px 8px; color: #ddd; text-decoration: none; font-size: 14px; }
+  .ep:hover a.eplink { color: #fff; }
+  a.eplink .n { flex: 0 0 28px; color: var(--muted); text-align: right; }
+  a.eplink .t { flex: 1; min-width: 0; word-break: break-word; }
+  a.eplink .m { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  a.loc { padding: 6px 10px; text-decoration: none; opacity: .55; }
+  a.loc:hover { opacity: 1; }
+  .tech { margin: 4px 0 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .trow { display: flex; gap: 14px; margin-bottom: 10px; font-size: 13px; }
+  .tl { flex: 0 0 110px; color: var(--muted); padding-top: 2px; }
+  .tl em { display: block; font-style: normal; font-size: 11px; opacity: .8; }
+  .tv { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tv.col { flex-direction: column; align-items: stretch; gap: 5px; max-height: 230px; overflow: auto; }
+  .trk { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .lang { min-width: 105px; }
+  .ttl { color: var(--muted); font-size: 12px; }
+  .flag { color: #f5c518; font-size: 11px; border: 1px solid #5a4b10; border-radius: 4px; padding: 0 5px; }
+  .cb { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 700; background: #2e2e2e; color: #ddd; }
+  .cb.v { background: #1d3557; color: #cfe3ff; }
+  .cb.a { background: #4a2c12; color: #ffd9b3; }
+  .cb.hdr { background: #5a4500; color: #ffe08a; }
+  .cb.ch { background: #333; color: #ccc; font-weight: 600; }
+  .cb.s { background: #243a2b; color: #c9e8c9; }
+  .cb.img { background: #fff; padding: 2px 6px; }
+  .cb.img img { height: 16px; display: block; }
+  @media (max-width: 640px) { .trow { flex-direction: column; gap: 4px; } }
+  footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; line-height: 1.5; }
+  footer a { color: #8ab4f8; }
+  @media (max-width: 640px) { .dialog { flex-direction: column; } .dialog .dposter { flex-basis: auto; max-width: 220px; } #search { width: 100%; } }
+
+  /* светлая тема страницы (переключатель внизу страницы) */
+  :root[data-theme="light"] { --bg:#f3f3f6; --card:#ffffff; --line:#d9d9e0; --muted:#6b6b76; color-scheme: light; }
+  :root[data-theme="light"] body { color:#1c1c22; }
+  :root[data-theme="light"] input, :root[data-theme="light"] select { background:#fff; border-color:#c5c5cf; color:#1c1c22; }
+  :root[data-theme="light"] .tab { background:#fff; color:#333; border-color:#cfcfd8; }
+  :root[data-theme="light"] .tab:hover { border-color:#999; }
+  :root[data-theme="light"] .tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+  :root[data-theme="light"] .card:hover { box-shadow:0 8px 20px rgba(0,0,0,.25); }
+  :root[data-theme="light"] .poster-wrap, :root[data-theme="light"] .dialog .dposter img, :root[data-theme="light"] .dialog .dposter .no-poster { background:#e3e3ea; }
+  :root[data-theme="light"] .otitle { color:#555; }
+  :root[data-theme="light"] .logo-art { color:#6a3fe0; }
+  :root[data-theme="light"] .dialog { background:#fff; }
+  :root[data-theme="light"] .tag { color:#444; }
+  :root[data-theme="light"] .chip { background:#e8e8ee; }
+  :root[data-theme="light"] .chip.kind { background:var(--accent); color:#fff; }
+  :root[data-theme="light"] .plot { color:#2a2a30; }
+  :root[data-theme="light"] .close { color:#222; }
+  :root[data-theme="light"] .play.disk { background:#dcdce4; color:#1c1c22; }
+  :root[data-theme="light"] details.season { background:#f0f0f4; }
+  :root[data-theme="light"] .ep:hover { background:#e2e2ea; }
+  :root[data-theme="light"] a.eplink { color:#2a2a30; }
+  :root[data-theme="light"] .ep:hover a.eplink { color:#000; }
+  :root[data-theme="light"] .cb { background:#e6e6ec; color:#333; }
+  :root[data-theme="light"] .cb.v { background:#d8e6ff; color:#12305e; }
+  :root[data-theme="light"] .cb.a { background:#ffe6cf; color:#6a3a10; }
+  :root[data-theme="light"] .cb.hdr { background:#fff0bf; color:#6a5000; }
+  :root[data-theme="light"] .cb.ch { background:#e6e6ec; color:#444; }
+  :root[data-theme="light"] .cb.s { background:#dff0e2; color:#1f4a2a; }
+  :root[data-theme="light"] .cb.img { background:#fff; border:1px solid #d9d9e0; }
+  :root[data-theme="light"] .flag { color:#8a6d00; border-color:#c9a92a; }
+  :root[data-theme="light"] footer a { color:#1a5fd0; }
+  #themebar { display:flex; justify-content:flex-end; align-items:center; gap:5px; margin:18px 0 0; color:var(--muted); font-size:11px; }
+  #themebar button { background:#222; color:#ddd; border:1px solid #444; border-radius:4px; padding:2px 9px; font-size:11px; cursor:pointer; }
+  #themebar button.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  :root[data-theme="light"] #themebar button { background:#fff; color:#333; border-color:#cfcfd8; }
+  :root[data-theme="light"] #themebar button.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+</style>
+<script>try{var __t=localStorage.getItem('blockbuster_theme');if(__t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+</head>
+<body>
+<header>
+  <h1 aria-label="Blockbuster"><canvas id="popcorn" aria-hidden="true"></canvas><pre class="logo-art" aria-hidden="true">    _/        _/                      _/        _/                              _/
+   _/_/_/    _/    _/_/      _/_/_/  _/  _/    _/_/_/    _/    _/    _/_/_/  _/_/_/_/    _/_/    _/  _/_/
+  _/    _/  _/  _/    _/  _/        _/_/      _/    _/  _/    _/  _/_/        _/      _/_/_/_/  _/_/
+ _/    _/  _/  _/    _/  _/        _/  _/    _/    _/  _/    _/      _/_/    _/      _/        _/
+_/_/_/    _/    _/_/      _/_/_/  _/    _/  _/_/_/      _/_/_/  _/_/_/        _/_/    _/_/_/  _/</pre><span class="cnt">(<span id="count">0</span>)</span></h1>
+  <div class="controls">
+    <input type="text" id="search" placeholder="Поиск: название, актёр, режиссёр, сюжет...">
+    <select id="kind">
+      <option value="" data-i18n="kind_all">Фильмы и сериалы</option>
+      <option value="movie" data-i18n="kind_movie">Только фильмы</option>
+      <option value="show" data-i18n="kind_show">Только сериалы</option>
+    </select>
+    <select id="genre"><option value="" data-i18n="genre_all">Все жанры</option></select>
+    <select id="sort">
+      <option value="title" data-i18n="sort_title">По названию</option>
+      <option value="year" data-i18n="sort_year">По году (новые)</option>
+      <option value="rating" data-i18n="sort_rating">По рейтингу</option>
+      <option value="added" data-i18n="sort_added">По дате добавления</option>
+      <option value="size" data-i18n="sort_size">По размеру файла</option>
+    </select>
+  </div>
+</header>
+<div id="tabs"></div>
+<div class="grid" id="grid"></div>
+
+<footer id="foot" hidden></footer>
+<div id="themebar"></div>
+
+<div id="modal"><div class="dialog" id="dialog"></div></div>
+
+<script>
+const MOVIES = __MOVIES_DATA__;
+const LANG = '__LANG__';
+const I18N = {"ru": {"title": "Blockbuster", "search": "Поиск: название, актёр, режиссёр, сюжет...", "kind_all": "Фильмы и сериалы", "kind_movie": "Только фильмы", "kind_show": "Только сериалы", "genre_all": "Все жанры", "sort_title": "По названию", "sort_year": "По году (новые)", "sort_rating": "По рейтингу", "sort_added": "По дате добавления", "sort_size": "По размеру файла", "foot": "Кнопки «▶ Открыть фильм», «📂 Показать на диске» и «📂 Открыть папку» нужно один раз включить: <a href=\"#\" id=\"batlink\">скачать register_catalog_buttons.bat</a> и запустить его двойным щелчком. Браузер может предупредить о файле .bat — это обычный скрипт из одной команды регистрации.", "all": "Все", "empty": "Ничего не найдено", "noposter": "Нет обложки", "show": "Сериал", "million": " млн", "thousand": " тыс.", "votes": " голосов", "video": "Видео", "first_ep": "по первой серии", "audio": "Звук", "subs": "Субтитры", "mbps": " Мбит/с", "kbps": " кбит/с", "default": "по умолч.", "specials": "Спецвыпуски", "season": "Сезон ", "episode_n": "Серия ", "ask_player": "спросит, каким плеером открыть", "show_file": "Показать файл на диске", "open_movie": "▶ Открыть фильм", "in_browser": "🌐 В браузере", "open_in_browser": "Открыть прямо в браузере", "open_folder": "📂 Открыть папку", "open_folder_t": "Открыть папку сериала в Проводнике", "show_disk": "📂 Показать на диске", "show_disk_t": "Показать файл в Проводнике", "close": "Закрыть", "rating": "Рейтинг", "cast": "Состав", "ep_len": "Длит. серии", "length": "Длительность", "creators": "Создатели", "director": "Режиссёр", "actors": "В ролях", "country": "Страна", "studio_net": "Студия / канал", "studio": "Студия", "age": "Возраст", "size": "Размер", "folder": "Папка", "file": "Файл", "cat_movies": "Фильмы", "cat_series": "Сериалы", "cat_cartoons": "Мультфильмы", "cat_docs": "Документальное", "seasons_w": ["сезон", "сезона", "сезонов"], "eps_w": ["серия", "серии", "серий"]}, "en": {"title": "Blockbuster", "search": "Search: title, actor, director, plot...", "kind_all": "Movies and TV shows", "kind_movie": "Movies only", "kind_show": "TV shows only", "genre_all": "All genres", "sort_title": "By title", "sort_year": "By year (newest)", "sort_rating": "By rating", "sort_added": "By date added", "sort_size": "By file size", "foot": "The buttons “▶ Play”, “📂 Show on disk” and “📂 Open folder” must be enabled once: <a href=\"#\" id=\"batlink\">download register_catalog_buttons.bat</a> and double-click it. The browser may warn about a .bat file — it is a plain one-command registration script.", "all": "All", "empty": "Nothing found", "noposter": "No poster", "show": "TV show", "million": " M", "thousand": " K", "votes": " votes", "video": "Video", "first_ep": "from the first episode", "audio": "Audio", "subs": "Subtitles", "mbps": " Mbit/s", "kbps": " kbit/s", "default": "default", "specials": "Specials", "season": "Season ", "episode_n": "Episode ", "ask_player": "you will be asked which player to use", "show_file": "Show the file on disk", "open_movie": "▶ Play movie", "in_browser": "🌐 In browser", "open_in_browser": "Open directly in the browser", "open_folder": "📂 Open folder", "open_folder_t": "Open the show folder in Explorer", "show_disk": "📂 Show on disk", "show_disk_t": "Show the file in Explorer", "close": "Close", "rating": "Rating", "cast": "Contents", "ep_len": "Episode length", "length": "Runtime", "creators": "Creators", "director": "Director", "actors": "Cast", "country": "Country", "studio_net": "Studio / network", "studio": "Studio", "age": "Age rating", "size": "Size", "folder": "Folder", "file": "File", "cat_movies": "Movies", "cat_series": "TV shows", "cat_cartoons": "Animation", "cat_docs": "Documentaries", "seasons_w": ["season", "seasons", "seasons"], "eps_w": ["episode", "episodes", "episodes"]}, "uk": {"title": "Blockbuster", "search": "Пошук: назва, актор, режисер, сюжет...", "kind_all": "Фільми та серіали", "kind_movie": "Лише фільми", "kind_show": "Лише серіали", "genre_all": "Усі жанри", "sort_title": "За назвою", "sort_year": "За роком (нові)", "sort_rating": "За рейтингом", "sort_added": "За датою додавання", "sort_size": "За розміром файлу", "foot": "Кнопки «▶ Відкрити фільм», «📂 Показати на диску» та «📂 Відкрити теку» потрібно один раз увімкнути: <a href=\"#\" id=\"batlink\">завантажити register_catalog_buttons.bat</a> і запустити його подвійним клацанням. Браузер може попередити про файл .bat — це звичайний скрипт з однієї команди реєстрації.", "all": "Усі", "empty": "Нічого не знайдено", "noposter": "Немає обкладинки", "show": "Серіал", "million": " млн", "thousand": " тис.", "votes": " голосів", "video": "Відео", "first_ep": "за першою серією", "audio": "Звук", "subs": "Субтитри", "mbps": " Мбіт/с", "kbps": " кбіт/с", "default": "за замовч.", "specials": "Спецвипуски", "season": "Сезон ", "episode_n": "Серія ", "ask_player": "запитає, яким програвачем відкрити", "show_file": "Показати файл на диску", "open_movie": "▶ Відкрити фільм", "in_browser": "🌐 У браузері", "open_in_browser": "Відкрити просто в браузері", "open_folder": "📂 Відкрити теку", "open_folder_t": "Відкрити теку серіалу в Провіднику", "show_disk": "📂 Показати на диску", "show_disk_t": "Показати файл у Провіднику", "close": "Закрити", "rating": "Рейтинг", "cast": "Склад", "ep_len": "Трив. серії", "length": "Тривалість", "creators": "Творці", "director": "Режисер", "actors": "У ролях", "country": "Країна", "studio_net": "Студія / канал", "studio": "Студія", "age": "Вік", "size": "Розмір", "folder": "Тека", "file": "Файл", "cat_movies": "Фільми", "cat_series": "Серіали", "cat_cartoons": "Мультфільми", "cat_docs": "Документальне", "seasons_w": ["сезон", "сезони", "сезонів"], "eps_w": ["серія", "серії", "серій"]}};
+const UNITS = {"ru": {}, "en": {"ГБ": "GB", "МБ": "MB", "КБ": "KB", "ТБ": "TB", "Б": "B", "ч": "h", "мин": "min", "/ серия": "/ episode"}, "uk": {"ГБ": "ГБ", "МБ": "МБ", "КБ": "КБ", "ТБ": "ТБ", "Б": "Б", "ч": "год", "мин": "хв", "/ серия": "/ серія"}};
+const LANGNAMES = {"en": {"Русский": "Russian", "Английский": "English", "Украинский": "Ukrainian", "Белорусский": "Belarusian", "Румынский": "Romanian", "Французский": "French", "Немецкий": "German", "Испанский": "Spanish", "Итальянский": "Italian", "Португальский": "Portuguese", "Японский": "Japanese", "Корейский": "Korean", "Китайский": "Chinese", "Польский": "Polish", "Чешский": "Czech", "Словацкий": "Slovak", "Венгерский": "Hungarian", "Болгарский": "Bulgarian", "Сербский": "Serbian", "Хорватский": "Croatian", "Турецкий": "Turkish", "Арабский": "Arabic", "Иврит": "Hebrew", "Хинди": "Hindi", "Тайский": "Thai", "Нидерландский": "Dutch", "Шведский": "Swedish", "Норвежский": "Norwegian", "Датский": "Danish", "Финский": "Finnish", "Греческий": "Greek", "Латышский": "Latvian", "Литовский": "Lithuanian", "Эстонский": "Estonian", "Казахский": "Kazakh", "Азербайджанский": "Azerbaijani", "Армянский": "Armenian", "Грузинский": "Georgian", "Вьетнамский": "Vietnamese", "Индонезийский": "Indonesian", "Персидский": "Persian"}, "uk": {"Русский": "Російська", "Английский": "Англійська", "Украинский": "Українська", "Белорусский": "Білоруська", "Румынский": "Румунська", "Французский": "Французька", "Немецкий": "Німецька", "Испанский": "Іспанська", "Итальянский": "Італійська", "Португальский": "Португальська", "Японский": "Японська", "Корейский": "Корейська", "Китайский": "Китайська", "Польский": "Польська", "Чешский": "Чеська", "Словацкий": "Словацька", "Венгерский": "Угорська", "Болгарский": "Болгарська", "Сербский": "Сербська", "Хорватский": "Хорватська", "Турецкий": "Турецька", "Арабский": "Арабська", "Иврит": "Іврит", "Хинди": "Гінді", "Тайский": "Тайська", "Нидерландский": "Нідерландська", "Шведский": "Шведська", "Норвежский": "Норвезька", "Датский": "Данська", "Финский": "Фінська", "Греческий": "Грецька", "Латышский": "Латиська", "Литовский": "Литовська", "Эстонский": "Естонська", "Казахский": "Казахська", "Азербайджанский": "Азербайджанська", "Армянский": "Вірменська", "Грузинский": "Грузинська", "Вьетнамский": "В'єтнамська", "Индонезийский": "Індонезійська", "Персидский": "Перська"}};
+const L = I18N[LANG] || I18N.ru;
+const t = k => L[k] !== undefined ? L[k] : k;
+const LOC = { ru: 'ru', en: 'en', uk: 'uk' }[LANG] || 'ru';
+const plw = (n, k) => { const w = t(k); if (LANG === 'en') return n === 1 ? w[0] : w[1]; return plural(n, w[0], w[1], w[2]); };
+// размеры, длительности и языки дорожек сканер пишет по-русски — переводим при показе
+const unit = v => {
+  if (!v || LANG === 'ru') return v || '';
+  const u = UNITS[LANG] || {};
+  return String(v).replace(/\/ серия$/, ' ' + u['/ серия']).replace(/ (ТБ|ГБ|МБ|КБ|Б)$/, (m, a) => ' ' + u[a]).replace(/(\d+) ч /, '$1 ' + u['ч'] + ' ').replace(/(\d+) мин/, '$1 ' + u['мин']);
+};
+const langName = v => (LANG !== 'ru' && LANGNAMES[LANG] && LANGNAMES[LANG][v]) || v;
+const catLabel = c => t('cat_' + c.id) !== 'cat_' + c.id ? t('cat_' + c.id) : c.label;
+const I18N_T = {
+  ru: { theme: 'Тема', dark: 'Тёмная', light: 'Светлая' },
+  en: { theme: 'Theme', dark: 'Dark', light: 'Light' },
+  uk: { theme: 'Тема', dark: 'Темна', light: 'Світла' }
+};
+Object.keys(I18N_T).forEach(l => Object.assign(I18N[l], I18N_T[l]));
+function setTheme(th) {
+  document.documentElement.setAttribute('data-theme', th);
+  try { localStorage.setItem('blockbuster_theme', th); } catch (e) {}
+  const d = document.getElementById('thDark'), l = document.getElementById('thLight');
+  if (d && l) { d.classList.toggle('on', th !== 'light'); l.classList.toggle('on', th === 'light'); }
+}
+function buildThemeBar() {
+  const bar = document.getElementById('themebar');
+  if (!bar) return;
+  bar.innerHTML = '<span>' + t('theme') + '</span><button id="thDark" type="button">' + t('dark') + '</button><button id="thLight" type="button">' + t('light') + '</button>';
+  document.getElementById('thDark').onclick = () => setTheme('dark');
+  document.getElementById('thLight').onclick = () => setTheme('light');
+  let th = 'dark';
+  try { th = localStorage.getItem('blockbuster_theme') || 'dark'; } catch (e) {}
+  setTheme(th);
+}
+function applyStatic() {
+  document.documentElement.lang = LANG;
+  document.title = t('title');
+  document.querySelector('h1').setAttribute('aria-label', t('title'));
+  $('search').placeholder = t('search');
+  document.querySelectorAll('[data-i18n]').forEach(e => { e.textContent = t(e.dataset.i18n); });
+  $('foot').innerHTML = t('foot');
+  buildThemeBar();
+}
+
+const CATS = __CATEGORIES__;
+const POPCORN = __POPCORN__;     // анимация Popcorn.json (Lottie) слева от логотипа; null, если файла нет
+MOVIES.forEach((m, i) => m._i = i);
+
+// ── мини-проигрыватель Lottie (оффлайн, без библиотек) для анимации Popcorn.json ──
+(function () {
+  const cv = document.getElementById('popcorn');
+  if (!cv) return;
+  if (typeof POPCORN === 'undefined' || !POPCORN || !POPCORN.layers) { cv.style.display = 'none'; return; }
+  const W = POPCORN.w || 1080, H = POPCORN.h || 1080, FR = POPCORN.fr || 30, OP = POPCORN.op || 30;
+  const num = v => Array.isArray(v) ? v[0] : v;
+  const ease = (x1, y1, x2, y2) => t => {
+    if (t <= 0) return 0; if (t >= 1) return 1;
+    let lo = 0, hi = 1, u = t;
+    for (let i = 0; i < 22; i++) { const x = 3*(1-u)*(1-u)*u*x1 + 3*(1-u)*u*u*x2 + u*u*u; if (x < t) lo = u; else hi = u; u = (lo + hi) / 2; }
+    return 3*(1-u)*(1-u)*u*y1 + 3*(1-u)*u*u*y2 + u*u*u;
+  };
+  function val(p, t) {
+    if (!p || !p.a) return p ? p.k : 0;
+    const k = p.k;
+    if (t <= k[0].t) return k[0].s;
+    for (let i = 0; i < k.length; i++) {
+      const a = k[i], b = k[i + 1];
+      if (!b) return a.s;
+      if (t < b.t) {
+        if (a.h) return a.s;
+        const lin = (t - a.t) / (b.t - a.t);
+        const o = a.o || {x: 0, y: 0}, n = a.i || {x: 1, y: 1};
+        const e = ease(num(o.x), num(o.y), num(n.x), num(n.y))(lin);
+        const s = a.s, f = b.s || a.s;
+        if (a.to && a.ti && Array.isArray(s)) {                       // пространственная кривая движения
+          const u = 1 - e;
+          return s.map((_, d) => u*u*u*s[d] + 3*u*u*e*(s[d] + a.to[d]) + 3*u*e*e*(f[d] + a.ti[d]) + e*e*e*f[d]);
+        }
+        return Array.isArray(s) ? s.map((v, d) => v + (f[d] - v) * e) : s + (f - s) * e;
+      }
+    }
+    return k[k.length - 1].s;
+  }
+  function xf(ctx, ks, t) {
+    const p = val(ks.p, t), s = val(ks.s, t), r = num(val(ks.r, t)), a = val(ks.a, t);
+    ctx.translate(p[0], p[1]);
+    ctx.rotate(r * Math.PI / 180);
+    ctx.scale((s[0] == null ? 100 : s[0]) / 100, (s[1] == null ? 100 : s[1]) / 100);
+    ctx.translate(-(a[0] || 0), -(a[1] || 0));
+  }
+  function chain(ctx, layer, layers, t) {
+    if (layer.parent != null) { const par = layers.find(l => l.ind === layer.parent); if (par) chain(ctx, par, layers, t); }
+    xf(ctx, layer.ks, t);
+  }
+  const rgb = (c, o) => `rgba(${Math.round(c[0]*255)},${Math.round(c[1]*255)},${Math.round(c[2]*255)},${o})`;
+  function path(ctx, it, t) {
+    if (it.ty === 'el') {
+      const p = val(it.p, t), s = val(it.s, t);
+      ctx.moveTo(p[0] + s[0] / 2, p[1]);
+      ctx.ellipse(p[0], p[1], s[0] / 2, s[1] / 2, 0, 0, Math.PI * 2);
+    } else if (it.ty === 'sh') {
+      const k = val(it.ks, t), v = k.v, I = k.i, O = k.o, n = v.length;
+      if (!n) return;
+      ctx.moveTo(v[0][0], v[0][1]);
+      const seg = (a, b) => ctx.bezierCurveTo(v[a][0] + O[a][0], v[a][1] + O[a][1], v[b][0] + I[b][0], v[b][1] + I[b][1], v[b][0], v[b][1]);
+      for (let j = 1; j < n; j++) seg(j - 1, j);
+      if (k.c) { seg(n - 1, 0); ctx.closePath(); }
+    }
+  }
+  function group(ctx, items, t, alpha) {
+    const tr = items.find(x => x.ty === 'tr');
+    ctx.save();
+    if (tr) { xf(ctx, tr, t); alpha *= num(val(tr.o, t)) / 100; }
+    const paths = [];
+    for (let i = 0; i < items.length; i++) {           // стили действуют на фигуры выше них; рисуем снизу вверх
+      const it = items[i];
+      if (it.ty === 'sh' || it.ty === 'el') paths.push(it);
+      else if (it.ty === 'gr') {}
+    }
+    for (let i = items.length - 1; i >= 0; i--) {
+      const it = items[i];
+      if (it.ty === 'gr') { group(ctx, it.it, t, alpha); continue; }
+      if (it.ty !== 'fl' && it.ty !== 'gf' && it.ty !== 'st') continue;
+      const mine = paths.filter(p => items.indexOf(p) < i);
+      if (!mine.length) continue;
+      const o = (num(val(it.o, t)) / 100) * alpha;
+      ctx.beginPath();
+      mine.forEach(p => path(ctx, p, t));
+      if (it.ty === 'fl') { ctx.fillStyle = rgb(val(it.c, t), o); ctx.fill(); }
+      else if (it.ty === 'gf') {
+        const s = val(it.s, t), e = val(it.e, t), st = val(it.g.k, t), np = it.g.p;
+        const g = it.t === 2 ? ctx.createRadialGradient(s[0], s[1], 0, s[0], s[1], Math.hypot(e[0] - s[0], e[1] - s[1]))
+                             : ctx.createLinearGradient(s[0], s[1], e[0], e[1]);
+        for (let j = 0; j < np; j++) g.addColorStop(Math.min(1, Math.max(0, st[j * 4])), rgb([st[j * 4 + 1], st[j * 4 + 2], st[j * 4 + 3]], o));
+        ctx.fillStyle = g; ctx.fill();
+      } else {
+        const w = num(val(it.w, t));
+        if (w > 0) {
+          ctx.lineWidth = w; ctx.strokeStyle = rgb(val(it.c, t), o);
+          ctx.lineCap = ['butt', 'butt', 'round', 'square'][it.lc] || 'butt';
+          ctx.lineJoin = ['miter', 'miter', 'round', 'bevel'][it.lj] || 'miter';
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.restore();
+  }
+  function layers(ctx, list, t, alpha) {
+    for (let i = list.length - 1; i >= 0; i--) {
+      const L = list[i];
+      if (L.hd || t < (L.ip || 0) || t > (L.op == null ? 1e9 : L.op)) continue;
+      ctx.save();
+      chain(ctx, L, list, t);
+      const a = alpha * num(val(L.ks.o, t)) / 100;
+      if (L.ty === 4 && L.shapes) { for (let j = L.shapes.length - 1; j >= 0; j--) if (L.shapes[j].ty === 'gr') group(ctx, L.shapes[j].it, t, a); }
+      else if (L.ty === 0) {
+        const as = (POPCORN.assets || []).find(x => x.id === L.refId);
+        if (as && as.layers) layers(ctx, as.layers, t - (L.st || 0), a);
+      }
+      ctx.restore();
+    }
+  }
+  const dpr = window.devicePixelRatio || 1, css = cv.clientWidth || 40;   // размер задаёт CSS: ровно высота ASCII-логотипа (5 строк)
+  cv.width = Math.round(css * dpr); cv.height = Math.round(css * dpr);
+  const ctx = cv.getContext('2d');
+  function draw(t) {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.scale(cv.width / W, cv.height / H);
+    try { layers(ctx, POPCORN.layers, t, 1); } catch (e) { cv.style.display = 'none'; }
+  }
+  draw(0);
+  let reduced = false;
+  try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (reduced) return;
+  const t0 = performance.now();
+  (function loop(now) { draw(((now - t0) / 1000 * FR) % OP); requestAnimationFrame(loop); })(t0);
+})();
+
+const $ = id => document.getElementById(id);
+const grid = $('grid'), countEl = $('count'), searchEl = $('search'), genreEl = $('genre'),
+      sortEl = $('sort'), kindEl = $('kind'), tabsEl = $('tabs'), modal = $('modal'), dialog = $('dialog');
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let cat = 'all';
+try { cat = localStorage.getItem('catalog_cat') || 'all'; } catch (e) {}
+
+function buildTabs() {
+  const counts = { all: MOVIES.length };
+  MOVIES.forEach(m => counts[m.category] = (counts[m.category] || 0) + 1);
+  const items = [{ id: 'all', label: t('all') }, ...CATS.filter(c => counts[c.id]).map(c => ({ id: c.id, label: catLabel(c) }))];
+  if (!items.some(c => c.id === cat)) cat = 'all';
+  tabsEl.innerHTML = items.map(c =>
+    `<button class="tab${c.id === cat ? ' active' : ''}" data-cat="${c.id}">${esc(c.label)}<span>${counts[c.id] || 0}</span></button>`).join('');
+}
+
+function inCat(m) { return cat === 'all' || m.category === cat; }
+
+function buildGenres() {
+  const cur = genreEl.value;
+  const genres = [...new Set(MOVIES.filter(inCat).flatMap(m => m.genres))].sort((a, b) => a.localeCompare(b, LOC));
+  genreEl.innerHTML = '<option value="">' + esc(t('genre_all')) + '</option>' + genres.map(g => `<option>${esc(g)}</option>`).join('');
+  genreEl.value = genres.includes(cur) ? cur : '';
+}
+
+function filtered() {
+  const q = searchEl.value.trim().toLowerCase();
+  const g = genreEl.value, k = kindEl.value;
+  let list = MOVIES.filter(m => {
+    if (!inCat(m)) return false;
+    if (k && m.kind !== k) return false;
+    if (g && !m.genres.includes(g)) return false;
+    if (!q) return true;
+    const hay = [m.title, m.original, m.year, m.plot, m.studio, m.file, ...m.genres, ...m.directors, ...m.actors].join(' ').toLowerCase();
+    return hay.includes(q);
+  });
+  const s = sortEl.value;
+  return list.sort((a, b) => {
+    if (s === 'year')   return (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
+    if (s === 'rating') return (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0);
+    if (s === 'added')  return b.added - a.added;
+    if (s === 'size')   return b.size_bytes - a.size_bytes;
+    return a.title.toLowerCase().localeCompare(b.title.toLowerCase(), LOC);
+  });
+}
+
+function plural(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
+function showSummary(m) {
+  return `${m.seasons_count} ${plw(m.seasons_count, 'seasons_w')} · ${m.episodes_count} ${plw(m.episodes_count, 'eps_w')}`;
+}
+
+function render() {
+  const list = filtered();
+  countEl.textContent = list.length;
+  if (!list.length) { grid.innerHTML = '<div class="empty">' + esc(t('empty')) + '</div>'; return; }
+  grid.innerHTML = list.map(m => {
+    const sub = m.kind === 'show' ? [m.year, showSummary(m)] : [m.year, unit(m.runtime)];
+    return `
+    <div class="card" data-i="${m._i}" title="${esc(m.kind === 'show' ? m.title : m.file)}">
+      <div class="poster-wrap">
+        ${m.poster ? `<img src="${m.poster}" loading="lazy" alt="">` : `<div class="no-poster">${esc(t('noposter'))}</div>`}
+        ${m.rating ? `<span class="badge">★ ${esc(m.rating)}</span>` : ''}
+        ${m.quality ? `<span class="qbadge">${esc(m.quality)}</span>` : ''}
+        ${m.kind === 'show' ? `<span class="kbadge">${esc(t('show'))}</span>` : ''}
+      </div>
+      <div class="info">
+        <div class="title">${esc(m.title)}</div>
+        ${m.original ? `<div class="otitle">${esc(m.original)}</div>` : ''}
+        <div class="sub">${esc(sub.filter(Boolean).join(' · '))}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function row(label, val) { return val ? `<tr><td>${label}</td><td>${esc(val)}</td></tr>` : ''; }
+
+const LIB = __LIB__;           // корень библиотеки (диск), нужен для ссылок «открыть / показать на диске»
+const co = (action, path) => `catalogopen://${action}/${encodeURIComponent(LIB.root)}/${path}`;
+const LOGOS = __LOGOS__;       // свои логотипы (.catalog_cache/logos), если есть, иначе — текстовые значки
+const LOGO_FALLBACK = { truehd_atmos: ['atmos'], eac3_atmos: ['atmos'], dtshd_ma: ['dtshd'], dtshd_hra: ['dtshd'] };
+const logoUrl = key => LOGOS[key] || (LOGO_FALLBACK[key] || []).map(k => LOGOS[k]).find(Boolean) || '';
+const logoImg = (key, alt, h) => logoUrl(key) ? `<img src="${logoUrl(key)}" alt="${esc(alt)}" style="height:${h}px;display:block">` : '';
+const HDR_LABEL = { dv: 'Dolby Vision', hdr10: 'HDR10', hlg: 'HLG' };
+
+function fmtVotes(v) {
+  const n = parseInt(v);
+  if (!n) return '';
+  if (n >= 1e6) return (n / 1e6).toFixed(1).replace('.0', '') + t('million');
+  if (n >= 1e3) return Math.round(n / 1e3) + t('thousand');
+  return String(n);
+}
+
+function cb(key, label, cls) {
+  const uri = logoUrl(key);
+  return uri ? `<span class="cb img" title="${esc(label)}"><img src="${uri}" alt="${esc(label)}"></span>`
+             : `<span class="cb ${cls}">${esc(label)}</span>`;
+}
+
+function techHtml(m) {
+  const v = m.vinfo, A = m.audio_tracks || [], S = m.sub_tracks || [];
+  if (!v && !A.length && !S.length) return '';
+  const note = m.kind === 'show' ? '<em>' + esc(t('first_ep')) + '</em>' : '';
+  let h = '<div class="tech">';
+  if (v) {
+    h += `<div class="trow"><div class="tl">${t('video')}${note}</div><div class="tv">
+      ${cb(v.key, v.codec, 'v')}${v.hdr.map(k => cb(k, HDR_LABEL[k] || k, 'hdr')).join('')}
+      ${v.bits > 8 ? `<span class="cb ch">${v.bits}-bit</span>` : ''}
+      ${m.resolution ? `<span class="cb ch">${esc(m.resolution)}</span>` : ''}
+    </div></div>`;
+  }
+  if (A.length) {
+    h += `<div class="trow"><div class="tl">${t('audio')} (${A.length})${note}</div><div class="tv col">` + A.map(a => `
+      <div class="trk"><span class="lang">${esc(langName(a.lang) || '—')}</span>
+        ${cb(a.key, a.codec, 'a')}${a.ch ? `<span class="cb ch">${esc(a.ch)}</span>` : ''}${a.kbps ? `<span class="cb ch">${a.kbps >= 1000 ? (a.kbps / 1000).toFixed(1).replace(/\.0$/, '') + t('mbps') : a.kbps + t('kbps')}</span>` : ''}
+        ${a.default ? '<span class="flag">' + esc(t('default')) + '</span>' : ''}
+        ${a.title ? `<span class="ttl">${esc(a.title)}</span>` : ''}
+      </div>`).join('') + `</div></div>`;
+  }
+  if (S.length) {
+    h += `<div class="trow"><div class="tl">${t('subs')} (${S.length})${note}</div><div class="tv col">` + S.map(s => `
+      <div class="trk"><span class="lang">${esc(langName(s.lang) || '—')}</span>
+        <span class="cb s">${esc(s.codec)}</span>
+        ${s.forced ? '<span class="flag">forced</span>' : ''}${s.sdh ? '<span class="flag">SDH</span>' : ''}${s.default ? '<span class="flag">' + esc(t('default')) + '</span>' : ''}
+        ${s.title ? `<span class="ttl">${esc(s.title)}</span>` : ''}
+      </div>`).join('') + `</div></div>`;
+  }
+  return h + '</div>';
+}
+
+function seasonsHtml(m) {
+  return `<div class="seasons">` + m.seasons.map((s, i) => `
+    <details class="season"${i === 0 ? ' open' : ''}>
+      <summary>${s.number === 0 ? t('specials') : t('season') + s.number} <em>· ${s.episodes.length} ${plw(s.episodes.length, 'eps_w')}</em></summary>
+      <div class="eps">${s.episodes.map(e => `
+        <div class="ep">
+          <a class="eplink" href="${co('play', e.video)}" title="${esc(e.file)} — ${esc(t('ask_player'))}">
+            <span class="n">${e.num}</span>
+            <span class="t">${esc(e.title || t('episode_n') + e.num)}</span>
+            <span class="m">${esc([e.quality, unit(e.runtime), unit(e.size)].filter(Boolean).join(' · '))}</span>
+          </a>
+          <a class="loc" href="${co('show', e.video)}" title="${esc(t('show_file'))}">📂</a>
+        </div>`).join('')}
+      </div>
+    </details>`).join('') + `</div>`;
+}
+
+function openModal(i) {
+  const m = MOVIES[i];
+  const isShow = m.kind === 'show';
+  const catLbl = (() => { const c = CATS.find(c => c.id === m.category); return c ? catLabel(c) : ''; })();
+  const q = encodeURIComponent(m.title);
+  const tmdbUrl = m.tmdb ? `https://www.themoviedb.org/${m.tmdb_media || (isShow ? 'tv' : 'movie')}/${encodeURIComponent(m.tmdb)}`
+                         : `https://www.themoviedb.org/search?query=${q}`;
+  const rtUrl = `https://www.rottentomatoes.com/search?search=${q}`;
+  const buttons = [
+    isShow ? '' : `<a class="play" href="${co('play', m.video)}" title="${esc(t('ask_player'))}">${esc(t('open_movie'))}</a>`,
+    isShow ? '' : `<a class="play disk" href="${m.video}" title="${esc(t('open_in_browser'))}">${esc(t('in_browser'))}</a>`,
+    isShow ? `<a class="play disk" href="${co('dir', m.folder)}" title="${esc(t('open_folder_t'))}">${esc(t('open_folder'))}</a>`
+           : `<a class="play disk" href="${co('show', m.video)}" title="${esc(t('show_disk_t'))}">${esc(t('show_disk'))}</a>`,
+    // IMDb / TMDB / Rotten Tomatoes: логотип из папки logos (imdb.png, tmdb.png, rt.png), иначе — текст
+    m.imdb ? `<a class="play imdb${logoUrl('imdb') ? ' logo' : ''}" target="_blank" rel="noopener" title="IMDb" href="https://www.imdb.com/title/${esc(m.imdb)}/">${logoImg('imdb', 'IMDb', 20) || 'IMDb'}</a>` : '',
+    `<a class="play tmdb${logoUrl('tmdb') ? ' logo' : ''}" target="_blank" rel="noopener" title="TMDB" href="${tmdbUrl}">${logoImg('tmdb', 'TMDB', 20) || 'TMDB'}</a>`,
+    m.rt ? `<a class="play rt${logoUrl('rt') ? ' logo' : ''}" target="_blank" rel="noopener" href="${rtUrl}" title="Rotten Tomatoes">${logoUrl('rt') ? `<span style="display:flex;gap:6px;align-items:center">${logoImg('rt', 'Rotten Tomatoes', 20)}<b style="color:#000">${esc(m.rt)}</b></span>` : '🍅 ' + esc(m.rt)}</a>` : '',
+  ].join('');
+  dialog.innerHTML = `
+    <button class="close" onclick="closeModal()" aria-label="${esc(t('close'))}">×</button>
+    <div class="dposter">${m.poster ? `<img src="${m.poster}" alt="">` : '<div class="no-poster">' + esc(t('noposter')) + '</div>'}</div>
+    <div class="dbody">
+      <h2>${esc(m.title)}${m.year ? ` <span style="color:#9a9a9a;font-weight:400">(${esc(m.year)})</span>` : ''}</h2>
+      ${m.original ? `<div class="orig">${esc(m.original)}</div>` : ''}
+      ${m.tagline ? `<div class="tag">${esc(m.tagline)}</div>` : ''}
+      <div class="chips">
+        ${isShow ? '<span class="chip kind">' + esc(t('show')) + '</span>' : ''}
+        ${catLbl && m.category !== 'movies' && m.category !== 'series' ? `<span class="chip kind">${esc(catLbl)}</span>` : ''}
+        ${m.genres.map(g => `<span class="chip">${esc(g)}</span>`).join('')}
+      </div>
+      ${m.plot ? `<div class="plot">${esc(m.plot)}</div>` : ''}
+      <table class="meta">
+        ${row(m.rating_src ? t('rating') + ' ' + m.rating_src : t('rating'), m.rating ? '★ ' + m.rating + (fmtVotes(m.votes) ? ' (' + fmtVotes(m.votes) + t('votes') + ')' : '') : '')}
+        ${row('Rotten Tomatoes', m.rt ? '🍅 ' + m.rt : '')}
+        ${isShow ? row(t('cast'), showSummary(m)) : ''}
+        ${row(isShow ? t('ep_len') : t('length'), unit(m.runtime))}
+        ${row(isShow ? t('creators') : t('director'), m.directors.join(', '))}
+        ${row(t('actors'), m.actors.join(', '))}
+        ${row(t('country'), m.countries.join(', '))}
+        ${row(isShow ? t('studio_net') : t('studio'), m.studio)}
+        ${row(t('age'), m.mpaa)}
+        ${row(t('size'), unit(m.size))}
+        ${row(isShow ? t('folder') : t('file'), isShow ? m.path : (m.path ? m.path + '/' : '') + m.file)}
+      </table>
+      ${techHtml(m)}
+      ${isShow ? seasonsHtml(m) : ''}
+      <div class="btns">${buttons}</div>
+    </div>`;
+  modal.classList.add('open');
+}
+function closeModal() { modal.classList.remove('open'); }
+
+tabsEl.addEventListener('click', e => {
+  const b = e.target.closest('.tab');
+  if (!b) return;
+  cat = b.dataset.cat;
+  try { localStorage.setItem('catalog_cat', cat); } catch (err) {}
+  buildTabs(); buildGenres(); render();
+});
+grid.addEventListener('click', e => {
+  const c = e.target.closest('.card');
+  if (c) openModal(+c.dataset.i);
+});
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+[searchEl, genreEl, sortEl, kindEl].forEach(el => el.addEventListener('input', render));
+
+const BAT = __BAT_INFO__;
+function downloadBat() {
+  const q = s => '"' + s.replace(/%/g, '%%') + '"';
+  const run = `${q(BAT.script)} --register`;
+  const lines = BAT.script ? [
+    '@echo off',
+    'chcp 65001 >nul',
+    'echo Registering catalog buttons...',
+    `if exist ${q(BAT.python)} (`,
+    `  ${q(BAT.python)} ${run}`,
+    ') else (',
+    `  python ${run}`,
+    ')',
+    'echo.',
+    'pause',
+  ] : [                                              // портативный exe: сам себя регистрирует
+    '@echo off',
+    'chcp 65001 >nul',
+    `${q(BAT.python)} --register`,
+    'echo.',
+    'pause',
+  ];
+  const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'application/octet-stream' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'register_catalog_buttons.bat';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+applyStatic();
+if (/Windows/i.test(navigator.userAgent)) $('foot').hidden = false;
+$('batlink').addEventListener('click', e => { e.preventDefault(); downloadBat(); });
+
+buildTabs(); buildGenres(); render();
+</script>
+</body>
+</html>
